@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Gestión de Citas</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="registro.html">Registro de Pacientes</a></li>
+                <li><a href="historial.html">Historial Médico</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Gestiona las Citas de los Pacientes</h2>
+        <form id="formulario-cita">
+            <label for="nombre-cita">Nombre del Paciente:</label>
+            <input type="text" id="nombre-cita" name="nombre-cita" required>
+
+            <label for="fecha-cita">Fecha:</label>
+            <input type="date" id="fecha-cita" name="fecha-cita" required>
+
+            <label for="hora-cita">Hora:</label>
+            <input type="time" id="hora-cita" name="hora-cita" required>
+
+            <button type="submit">Agendar Cita</button>
+        </form>
+
+        <h3>Citas Agendadas:</h3>
+        <ul id="lista-citas"></ul>
+    </main>
+
+    <script src="citas.js"></script>
+</body>
+</html>
