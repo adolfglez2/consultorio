@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial Médico</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
 
     <header>
         <h1>Historial Médico</h1>
         <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="registro.html">Registro de Pacientes</a></li>
-                <li><a href="citas.html">Citas</a></li>
+            <ul class="nav-buttons">
+                <li><button onclick="window.location.href='index.html'">Inicio</button></li>
+                <li><button onclick="window.location.href='registro.html'">Registro de Pacientes</button></li>
+                <li><button onclick="window.location.href='citas.html'">Citas</button></li>
             </ul>
         </nav>
     </header>
@@ -37,8 +37,14 @@
             <input type="text" id="id-creacion" name="id-creacion" required>
             <label for="historial-notas">Notas del Historial Médico:</label>
             <textarea id="historial-notas" name="historial-notas" required></textarea>
-            <button type="submit">Crear Historial</button>
+            <button type="submit">Agregar Nota</button>
         </form>
+
+        <div id="historial-medico" style="display: none;">
+            <h3>Historial Médico del Paciente</h3>
+            <ul id="lista-notas"></ul>
+            <button id="agregar-nota-btn">Agregar Nueva Nota</button>
+        </div>
     </main>
 
     <script src="historial.js"></script>
