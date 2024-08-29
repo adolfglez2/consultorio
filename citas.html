@@ -3,39 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Citas</title>
+    <title>Agendar Cita</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <header>
-        <h1>Gestión de Citas</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="registro.html">Registro de Pacientes</a></li>
-                <li><a href="historial.html">Historial Médico</a></li>
-            </ul>
-        </nav>
+        <h1>Sistema de Gestión de Consultorios</h1>
     </header>
+    
+    <nav>
+        <ul>
+            <li><button onclick="window.location.href='index.html'">Inicio</button></li>
+            <li><button onclick="window.location.href='registro.html'">Registro Paciente</button></li>
+            <li><button onclick="window.location.href='citas.html'">Citas</button></li>
+            <li><button onclick="window.location.href='historial.html'">Historial Médico</button></li>
+        </ul>
+    </nav>
 
     <main>
-        <h2>Gestiona las Citas de los Pacientes</h2>
-        <form id="formulario-cita">
-            <label for="nombre-cita">Nombre del Paciente:</label>
-            <input type="text" id="nombre-cita" name="nombre-cita" required>
+        <h2>Agendar Cita</h2>
+        <form id="form-citas">
+            <label for="id-paciente">ID del Paciente:</label>
+            <input type="text" id="id-paciente" required>
+            
+            <button type="button" id="buscar-paciente">Buscar Paciente</button>
+            
+            <div id="datos-paciente" style="display: none;">
+                <p><strong>Nombre:</strong> <span id="nombre-paciente"></span></p>
+                <p><strong>Edad:</strong> <span id="edad-paciente"></span></p>
+                <p><strong>Teléfono:</strong> <span id="telefono-paciente"></span></p>
+            </div>
 
-            <label for="fecha-cita">Fecha:</label>
-            <input type="date" id="fecha-cita" name="fecha-cita" required>
+            <label for="fecha-cita">Fecha de la Cita:</label>
+            <input type="date" id="fecha-cita" required>
 
-            <label for="hora-cita">Hora:</label>
-            <input type="time" id="hora-cita" name="hora-cita" required>
+            <label for="hora-cita">Hora de la Cita:</label>
+            <input type="time" id="hora-cita" required>
 
             <button type="submit">Agendar Cita</button>
         </form>
-
-        <h3>Citas Agendadas:</h3>
-        <ul id="lista-citas"></ul>
     </main>
 
     <script src="citas.js"></script>
