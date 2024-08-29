@@ -1,57 +1,65 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const crearHistorialBtn = document.getElementById('crear-historial-btn');
-    const buscarHistorialBtn = document.getElementById('buscar-historial-btn');
-    const formularioBusqueda = document.getElementById('formulario-busqueda');
-    const formularioCreacion = document.getElementById('formulario-creacion');
+// Variables para los formularios y botones
+const crearHistorialBtn = document.getElementById('crear-historial-btn');
+const buscarHistorialBtn = document.getElementById('buscar-historial-btn');
+const formularioBusqueda = document.getElementById('formulario-busqueda');
+const formularioCreacion = document.getElementById('formulario-creacion');
+const historialMedico = document.getElementById('historial-medico');
+const listaNotas = document.getElementById('lista-notas');
+const agregarNotaBtn = document.getElementById('agregar-nota-btn');
 
-    crearHistorialBtn.addEventListener('click', () => {
-        formularioBusqueda.style.display = 'none';
-        formularioCreacion.style.display = 'block';
-    });
-
-    buscarHistorialBtn.addEventListener('click', () => {
-        formularioBusqueda.style.display = 'block';
-        formularioCreacion.style.display = 'none';
-    });
-
-    formularioBusqueda.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const idBusqueda = document.getElementById('id-busqueda').value;
-
-        // Redirige a la página de resultados pasando el ID del paciente en la URL
-        window.location.href = `resultado.html?id=${idBusqueda}`;
-    });
-
-    formularioCreacion.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const idCreacion = document.getElementById('id-creacion').value;
-        const notas = document.getElementById('historial-notas').value;
-
-        const pacientes = obtenerDatos('pacientes');
-        const paciente = pacientes.find(p => p.idPaciente === idCreacion);
-
-        if (paciente) {
-            let historiales = obtenerDatos('historiales');
-            const nuevoHistorial = {
-                idPaciente: idCreacion,
-                notas: notas,
-                fecha: new Date().toLocaleDateString(),
-            };
-            historiales.push(nuevoHistorial);
-            guardarDatos('historiales', historiales);
-
-            alert('Historial creado exitosamente.');
-            formularioCreacion.reset();
-        } else {
-            alert('No se encontró un paciente con el ID proporcionado.');
-        }
-    });
-
-    function obtenerDatos(clave) {
-        return JSON.parse(localStorage.getItem(clave)) || [];
-    }
-
-    function guardarDatos(clave, datos) {
-        localStorage.setItem(clave, JSON.stringify(datos));
-    }
+// Mostrar el formulario de búsqueda o creación según la opción elegida
+crearHistorialBtn.addEventListener('click', () => {
+    formularioCreacion.style.display = 'block';
+    formularioBusqueda.style.display = 'none';
+    historialMedico.style.display = 'none';
 });
+
+buscarHistorialBtn.addEventListener('click', () => {
+    formularioBusqueda.style.display = 'block';
+    formularioCreacion.style.display = 'none';
+    historialMedico.style.display = 'none';
+});
+
+// Función para agregar notas al historial
+formularioCreacion.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const idPaciente = document.getElementById('id-creacion').value;
+    const nota = document.getElementById('historial-notas').value;
+
+    let historial = JSON.parse(localStorage.getItem(idPaciente)) || [];
+    historial.push(nota);
+    localStorage.setItem(idPaciente, JSON.stringify(historial));
+
+    alert('Nota agregada al historial.');
+    document.getElementById('historial-notas').value = '';
+    mostrarHistorial(idPaciente);
+});
+
+// Función para buscar y mostrar el historial del paciente
+formularioBusqueda.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const idPaciente = document.getElementById('id-busqueda').value;
+    mostrarHistorial(idPaciente);
+});
+
+// Mostrar historial y permitir agregar nuevas notas
+function mostrarHistorial(idPaciente) {
+    const historial = JSON.parse(localStorage.getItem(idPaciente)) || [];
+    listaNotas.innerHTML = '';
+
+    historial.forEach((nota, index) => {
+        const li = document.createElement('li');
+        li.textContent = `Nota ${index + 1}: ${nota}`;
+        listaNotas.appendChild(li);
+    });
+
+    historialMedico.style.display = 'block';
+    formularioBusqueda.style.display = 'none';
+    formularioCreacion.style.display = 'none';
+
+    agregarNotaBtn.addEventListener('click', () => {
+        formularioCreacion.style.display = 'block';
+        historialMedico.style.display = 'none';
+        document.getElementById('id-creacion').value = idPaciente;
+    });
+}
