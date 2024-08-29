@@ -1,50 +1,31 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const formularioCita = document.getElementById('formulario-cita');
-    const listaCitas = document.getElementById('lista-citas');
+document.getElementById("buscar-paciente").addEventListener("click", function() {
+    const idPaciente = document.getElementById("id-paciente").value;
+    const paciente = JSON.parse(localStorage.getItem(idPaciente));
 
-    const citas = obtenerDatos('citas');
-    mostrarCitas(citas);
+    if (paciente) {
+        document.getElementById("nombre-paciente").textContent = paciente.nombre;
+        document.getElementById("edad-paciente").textContent = paciente.edad;
+        document.getElementById("telefono-paciente").textContent = paciente.telefono;
 
-    formularioCita.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const nombreCita = document.getElementById('nombre-cita').value;
-        const fechaCita = document.getElementById('fecha-cita').value;
-        const horaCita = document.getElementById('hora-cita').value;
-
-        const nuevaCita = { nombreCita, fechaCita, horaCita };
-        citas.push(nuevaCita);
-        guardarDatos('citas', citas);
-
-        mostrarCitas(citas);
-        formularioCita.reset();
-    });
-
-    function mostrarCitas(citas) {
-        listaCitas.innerHTML = '';
-
-        citas.forEach((cita, index) => {
-            const li = document.createElement('li');
-            li.textContent = `${cita.nombreCita} - ${cita.fechaCita} a las ${cita.horaCita}`;
-            
-            const botonEliminar = document.createElement('button');
-            botonEliminar.textContent = 'Eliminar';
-            botonEliminar.onclick = () => {
-                citas.splice(index, 1);
-                guardarDatos('citas', citas);
-                mostrarCitas(citas);
-            };
-
-            li.appendChild(botonEliminar);
-            listaCitas.appendChild(li);
-        });
+        document.getElementById("datos-paciente").style.display = "block";
+    } else {
+        alert("No se encontró un paciente con ese ID.");
+        document.getElementById("datos-paciente").style.display = "none";
     }
+});
 
-    function guardarDatos(clave, valor) {
-        localStorage.setItem(clave, JSON.stringify(valor));
-    }
+document.getElementById("form-citas").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    function obtenerDatos(clave) {
-        return JSON.parse(localStorage.getItem(clave)) || [];
-    }
+    const idPaciente = document.getElementById("id-paciente").value;
+    const fechaCita = document.getElementById("fecha-cita").value;
+    const horaCita = document.getElementById("hora-cita").value;
+
+    const citas = JSON.parse(localStorage.getItem("citas")) || [];
+    citas.push({ idPaciente, fechaCita, horaCita });
+    localStorage.setItem("citas", JSON.stringify(citas));
+
+    alert("Cita agendada con éxito.");
+    document.getElementById("form-citas").reset();
+    document.getElementById("datos-paciente").style.display = "none";
 });
